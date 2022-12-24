@@ -3,6 +3,9 @@ public class Calculator {
     private final double creditPeriod;
     private final double creditAmount;
     private final double MIR; // MonthlyInterestRate
+    private double payment;
+    private double amount;
+    private double overpayment;
 
     public Calculator(double interestRate, double creditPeriod, double creditAmount) {
         this.creditPeriod = creditPeriod;
@@ -11,15 +14,24 @@ public class Calculator {
     }
 
     public double monthlyPayment() {
-        return 0;
+        calculateParams();
+        return Math.round(payment);
     }
 
     public double totalAmount() {
-        return 0;
+        calculateParams();
+        return Math.round(amount);
     }
 
     public double totalOverpayment() {
-        return 0;
+        calculateParams();
+        return Math.round(overpayment);
+    }
+
+    private void  calculateParams() {
+        payment = creditAmount * (MIR * Math.pow((1 + MIR), creditPeriod * 12)) / (Math.pow((1 + MIR), creditPeriod * 12) - 1);
+        amount = payment * (creditPeriod * 12);
+        overpayment = amount - creditAmount;
     }
 
 }
